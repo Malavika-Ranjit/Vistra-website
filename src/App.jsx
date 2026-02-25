@@ -1,18 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
-import Home from "../pages/home";
-import Dblayer1 from "../pages/dblayer1";
-import Dblayer2 from "../pages/dblayer2";
-import L1Scan from "../pages/l1_scan";
+
+import Home from '../pages/home';
+import Signin from '../pages/Signin';
+import Signup from '../pages/Signup';
+import Layer1 from '../pages/dblayer1';
+import Layer2 from '../pages/dblayer2';
 
 function App() {
   return (
-     <Routes>
+    <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/dblayer1" element={<Dblayer1/>} />
-      <Route path="/dblayer2" element={<Dblayer2/>} />
-      <Route path="/l1_scan" element={<L1Scan/>}/>
+      <Route path="/signin" element={<Signin />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/dblayer1" element={<Layer1 />} />
+      <Route path="/dblayer2" element={<Layer2 />} />
     </Routes>
-  )
+  );
 }
 
 export default App;
