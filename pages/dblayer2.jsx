@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 function Dblayer2(){
-     const navigate = useNavigate();
+    const navigate = useNavigate();
     const containerStyles ={}
     const header={
         display: 'flex',
@@ -61,6 +61,9 @@ const title={
     fontWeight: 700,
     marginBottom: '1.5rem',
     color: '#000',
+    marginLeft:'16em',
+   // alignItems: 'center',
+  //justifyContent: 'center',
 }
 const scancount={
     fontSize: '1.125rem',
@@ -93,7 +96,51 @@ const button1 ={
     color: '#000',
   };
 
-    return(
+  function reporttable() {
+
+  const files = [
+    {
+      f_name: "hello",
+      f_path: "/sys/class/net/ttx_errors",
+      f_score: 30,
+      f_action: "quarantine"
+    }
+    
+  ];
+
+
+  if (!files || files.length === 0) {
+    return <h3>Table is empty</h3>;
+  }
+
+  return (
+    <table border="1" cellPadding="10" style={{ width: "100%" }}>
+      <thead>
+        <tr>
+          <th>Sl no.</th>
+          <th>File name</th>
+          <th>File path</th>
+          <th>Score</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {files.map((file, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>  
+            <td>{file.f_name}</td>
+            <td>{file.f_path}</td>
+            <td>{file.f_score}</td>
+            <td>{file.f_action}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+  return(
        <div className="layer2-Container" style ={containerStyles}>
         <div className="header" style={header}>
             <div className="logo">
@@ -116,11 +163,16 @@ const button1 ={
 
             <div className="content" style ={content}>
                 <h1 className="title" style={title}>Layer 2</h1>
-                <p className="scan-count" style={scancount}>2000 files</p>
+                {/*<p className="scan-count" style={scancount}>2000 files</p>
                 <div className="buttons" style={buttons}>
                     <div className="button1"style={{...button,...button1}}>Learn more</div>
                     <div className="button2"style={{...button,...button2}}>Scan me</div>
+                </div>*/}
+                <div>
+                    {reporttable()}
                 </div>
+
+                
             </div>
 
         </div>

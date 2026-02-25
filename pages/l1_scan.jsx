@@ -1,4 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+
 function L1Scan(){
+    const navigate =useNavigate();
+
     return(
             <div className="l1scan-container">
                 <div className="progress"></div>
@@ -14,7 +18,8 @@ function L1Scan(){
                         <div className="high">High</div>
                     </div>
                 </div>
-                <button className="report">FULL REPORT</button>
+                <button className="report"
+                onClick ={()=> navigate("/report1")}>FULL REPORT</button>
 
             </div>
     )
