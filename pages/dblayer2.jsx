@@ -1,182 +1,202 @@
-
 import React from 'react';
 import AccountsIcon from '../assets/account.png';
 import { useNavigate } from 'react-router-dom';
 
+function Dblayer2() {
+  const navigate = useNavigate();
 
-function Dblayer2(){
-    const navigate = useNavigate();
-    const containerStyles ={}
-    const header={
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '1rem 1.5rem',
-    }
-    const account={
-        width: '40px', 
-        height: '40px', 
-        objectFit: 'contain'
-    }
-    const tabs={ 
-        display: 'flex',
-        gap: '0',
-        maxWidth: '400px',
-        margin: '2rem auto',
-        border: '2px solid #333',
-        borderRadius: '8px',
-        overflow: 'hidden',
-
-    }
-    const tab={
-        flex: 1,
-  padding: '0.875rem 2rem',
-  fontSize: '2rem',
-  fontWeight: 500,
-  backgroundColor: '#ffffff',
-  border: 'none',
-  transition: 'all 0.3s ease',
-  color: '#333',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-    }
-    const tab1style = {
-  borderRight: '2px solid #333',
-};
-const active={
-    backgroundColor: '#ffb3d9',
-    color: '#333'
-}
-const content={
-     border: '2px solid #4a9eff',
-  borderRadius: '8px',
-  margin: '2rem',
-  padding: '3rem 2rem',
-  minHeight: '400px',
-  backgroundColor: '#ffffff',
-}
-const title={
-    fontSize: '3rem',
-    fontWeight: 700,
-    marginBottom: '1.5rem',
-    color: '#000',
-    marginLeft:'16em',
-   // alignItems: 'center',
-  //justifyContent: 'center',
-}
-const scancount={
-    fontSize: '1.125rem',
-    color: '#666',
-    marginBottom: '2rem',
-}
-const buttons={
+  /* ---------- styles ---------- */
+  const header = {
     display: 'flex',
-    gap: '1rem',
-    flexWrap: 'wrap',
-}
-const button={
-    
-  padding: '0.875rem 1.75rem',
-  fontSize: '1rem',
-  fontWeight: 500,
-  borderRadius: '6px',
-  cursor: 'pointer',
-  transition: 'all 0.2s ease',
-  border: '2px solid #000',
-}
-const button1 ={
-    backgroundColor: '#000',
-    color: '#fff',
-}
-
-
-  const button2= {
-    backgroundColor: '#fff',
-    color: '#000',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '1rem 1.5rem',
   };
 
-  function reporttable() {
+  const account = {
+    width: '40px',
+    height: '40px',
+    objectFit: 'contain',
+  };
 
-  const files = [
-    {
-      f_name: "hello",
-      f_path: "/sys/class/net/ttx_errors",
-      f_score: 30,
-      f_action: "quarantine"
-    }
-    
-  ];
+  const tabs = {
+    display: 'flex',
+    maxWidth: '400px',
+    margin: '2rem auto',
+    border: '2px solid #333',
+    borderRadius: '8px',
+    overflow: 'hidden',
+  };
 
+  const tab = {
+    flex: 1,
+    padding: '0.875rem 2rem',
+    fontSize: '2rem',
+    fontWeight: 500,
+    backgroundColor: '#fff',
+    border: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+  };
 
-  if (!files || files.length === 0) {
-    return <h3>Table is empty</h3>;
-  }
+  const active = {
+    backgroundColor: '#ffb3d9',
+  };
 
-  return (
-    <table border="1" cellPadding="10" style={{ width: "100%" }}>
-      <thead>
-        <tr>
-          <th>Sl no.</th>
-          <th>File name</th>
-          <th>File path</th>
-          <th>Score</th>
-          <th>Action</th>
-        </tr>
-      </thead>
+  const content = {
+    margin: '2rem',
+    padding: '3rem 2rem',
+    minHeight: '400px',
+    backgroundColor: '#fff',
+    borderRadius: '8px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  };
 
-      <tbody>
-        {files.map((file, index) => (
-          <tr key={index}>
-            <td>{index + 1}</td>  
-            <td>{file.f_name}</td>
-            <td>{file.f_path}</td>
-            <td>{file.f_score}</td>
-            <td>{file.f_action}</td>
+  const title = {
+    fontSize: '3rem',
+    fontWeight: 700,
+    marginBottom: '2rem',
+  };
+
+  /* ---------- handler ---------- */
+  const handleReportClick = (file) => {
+    console.log('Report clicked:', file);
+    navigate('/reports', { state: { file } });
+  };
+
+  /* ---------- table component ---------- */
+  const ReportTable = () => {
+    const files = [
+      // {
+      //   f_name: 'hello',
+      //   f_path: '/sys/class/net/ttx_errors',
+      //   f_score: 30,
+      //   f_action: 'quarantine',
+      // },
+      // {
+      //   f_name: 'sree_lakshmi_dileep',
+      //   f_path: '/sys/class/net/ttx_errors',
+      //   f_score: 60,
+      //   f_action: 'quarantine',
+      // },
+    ];
+    if (!files||files.length==0){
+      return(
+        <div style={{
+          marginTop: '3rem',
+          fontSize: '1.4rem',
+          fontWeight: 500,
+          color: '#666',
+          textAlign: 'center',
+        }}>
+        NO ALERT FOUND 
+        </div>     
+        );
+      }
+    return (
+      <table
+        style={{
+          width: '100%',
+          borderCollapse: 'collapse',
+          tableLayout: 'fixed', // ⭐ IMPORTANT
+        }}
+        cellPadding="10"
+      >
+        <thead>
+          <tr>
+            <th style={{ width: '80px', textAlign: 'center' }}>Sl No</th>
+            <th style={{ textAlign: 'center' }}>File Name</th>
+            <th style={{ textAlign: 'center' }}>File Path</th>
+            <th style={{ width: '100px', textAlign: 'center' }}>Score</th>
+            <th style={{ width: '140px', textAlign: 'center' }}>Action</th>
+            <th style={{ width: '120px', textAlign: 'center' }}>Report</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+
+        <tbody>
+          {files.map((file, index) => (
+            <tr key={index}>
+              <td
+                style={{
+                  width: '80px',
+                  textAlign: 'center',
+                  verticalAlign: 'middle',
+                  fontWeight: 500,
+                }}
+              >
+                {index + 1}
+              </td>
+
+              <td
+                style={{
+                  textAlign: 'center',
+                  wordBreak: 'break-word',
+                  overflowWrap: 'break-word',
+                }}
+              >
+                {file.f_name}
+              </td>
+
+              <td
+                style={{
+                  textAlign: 'center',
+                  wordBreak: 'break-word',
+                }}
+              >
+                {file.f_path}
+              </td>
+
+              <td style={{ textAlign: 'center' }}>{file.f_score}</td>
+
+              <td style={{ textAlign: 'center' }}>{file.f_action}</td>
+
+              <td style={{ textAlign: 'center' }}>
+                <button
+                  onClick={() => handleReportClick(file)}
+                  style={{
+                    padding: '6px 14px',
+                    backgroundColor: '#000',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Report
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  /* ---------- JSX ---------- */
+  return (
+    <div>
+      <div style={header}>
+        <h2>Logo</h2>
+        <img src={AccountsIcon} alt="account" style={account} />
+      </div>
+
+      <div style={tabs}>
+        <div style={tab} onClick={() => navigate('/dblayer1')}>
+          Layer 1
+        </div>
+        <div style={{ ...tab, ...active }}>Layer 2</div>
+      </div>
+
+      <div style={content}>
+        <h1 style={title}>Layer 2</h1>
+        <ReportTable />
+      </div>
+    </div>
   );
 }
 
-  return(
-       <div className="layer2-Container" style ={containerStyles}>
-        <div className="header" style={header}>
-            <div className="logo">
-            <h2>logo</h2>
-            </div>
-            <div className="account" >
-                <img src={AccountsIcon} alt="Accounts" className="accounts-icon" style={account}/>
-                
-
-            </div>
-        </div>
-
-        <div className="main">
-
-            <div className="tabs" style={tabs}>
-                <div className="tab1" style={{...tab, ...tab1style}}
-                onClick={() => navigate('/dblayer1')}>Layer 1</div>
-                <div className="tab active" style={{...tab,...active}}>Layer 2</div>
-            </div>
-
-            <div className="content" style ={content}>
-                <h1 className="title" style={title}>Layer 2</h1>
-                {/*<p className="scan-count" style={scancount}>2000 files</p>
-                <div className="buttons" style={buttons}>
-                    <div className="button1"style={{...button,...button1}}>Learn more</div>
-                    <div className="button2"style={{...button,...button2}}>Scan me</div>
-                </div>*/}
-                <div>
-                    {reporttable()}
-                </div>
-
-                
-            </div>
-
-        </div>
-       </div>
-    )
-}
-export default  Dblayer2;
+export default Dblayer2;
