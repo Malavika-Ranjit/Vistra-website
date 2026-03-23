@@ -1,12 +1,20 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 const Report2 = () => {
-  const file = {
-    name: "hello.txt",
-    path: "C:/home/sree/Downloads",
-    score: 92,
-    status: "Quarantined",
-  };
+  //const file = {
+    //name: "hello.txt",
+   // path: "C:/home/sree/Downloads",
+    //score: 92,
+    //status: "Quarantined",
+  //};
+
+const { state } = useLocation();
+const file = state?.file;
+if (!file) {
+    return <h2>No file data</h2>;
+  }
+
 const score = file.score;
 
 let riskText;
@@ -72,10 +80,12 @@ if (score >= 90) {
         </div>
 
         
-        <div style={styles.buttonContainer}>
-          <button style={styles.deleteBtn}>Delete File</button>
-          <button style={styles.keepBtn}> Keep File</button>
-        </div>
+        {file.status !== "Deleted" && (
+  <div style={styles.buttonContainer}>
+    <button style={styles.deleteBtn}>Delete File</button>
+    <button style={styles.keepBtn}>Keep File</button>
+  </div>
+)}
       </div>
     </div>
   );

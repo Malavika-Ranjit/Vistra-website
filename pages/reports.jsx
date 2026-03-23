@@ -133,11 +133,12 @@
 
 // export default Reports;
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation ,useNavigate} from "react-router-dom";
 import {
   PieChart, Pie, Cell, BarChart, Bar,
   XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
 } from "recharts";
+
 
 /* ─── INLINE STYLES ──────────────────────────────────────────── */
 const styles = `
@@ -674,9 +675,23 @@ function Reports() {
     { name: "Quarantined", value: quarantinedFiles, fill: "#ffc107" }
   ];
 
+
   const maxSev = Math.max(low, medium, high, 1);
   const now = new Date();
 
+  const navigate =useNavigate();
+const handleFileClick = (fileName,status) => {
+  navigate("/report2", {
+    state: {
+      file: {
+        name: fileName,
+        path: "C:/sample/path",
+        score: Math.floor(Math.random() * 100),
+        status: status,
+      }
+    }
+  });
+};
   return (
     <>
       <style>{styles}</style>
@@ -830,7 +845,12 @@ function Reports() {
               {deletedList.length > 0 ? (
                 <ul className="av-file-list">
                   {deletedList.map((f, i) => (
-                    <li key={i} className="av-file-item">
+                    <li
+                        key={i}
+                        className="av-file-item"
+                        onClick={() => handleFileClick(f,"Deleted")}
+                        style={{ cursor: "pointer" }}
+                      >
                       <div className="av-file-dot" style={{ background: "var(--high)" }} />
                       {f}
                     </li>
@@ -850,7 +870,12 @@ function Reports() {
               {quarantinedList.length > 0 ? (
                 <ul className="av-file-list">
                   {quarantinedList.map((f, i) => (
-                    <li key={i} className="av-file-item">
+                    <li
+                        key={i}
+                        className="av-file-item"
+                        onClick={() => handleFileClick(f,"Quarantined")}
+                        style={{ cursor: "pointer" }}
+                      >
                       <div className="av-file-dot" style={{ background: "var(--medium)" }} />
                       {f}
                     </li>
