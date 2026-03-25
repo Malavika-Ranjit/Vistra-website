@@ -781,6 +781,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AboutBG from "../assets/about_image.png";
+import { useSelector } from "react-redux";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
@@ -1169,31 +1170,42 @@ const styles = `
     50% { opacity: 0.3; }
   }
 `;
-
+import { useWebSocketTask } from "../src/websocket/websocket";
 function Dblayer2() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isScanning, setIsScanning] = useState(false);
-  const [progress, setProgress] = useState(0);
+  //const [progress, setProgress] = useState(0);
   const [scanCompleted, setScanCompleted] = useState(false);
   const [time, setTime] = useState(new Date());
+  const deviceId = "470a47234101453c97a2bf21a1ce62c4"
+  const { startTask } = useWebSocketTask(deviceId);
+  const progress = useSelector((state) => state.progress.data);
+
+  const handleScan = () => {
+    setIsScanning(true); 
+    // setProgress(0); 
+    // setScanCompleted(false)
+    
+    startTask()
+  }
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
 
-  useEffect(() => {
-    let timer;
-    if (isScanning && progress < 100) {
-      timer = setInterval(() => setProgress((p) => Math.min(p + 2, 100)), 120);
-    }
-    if (progress >= 100 && isScanning) {
-      setIsScanning(false);
-      setScanCompleted(true);
-    }
-    return () => clearInterval(timer);
-  }, [isScanning, progress]);
+  // useEffect(() => {
+  //   let timer;
+  //   if (isScanning && progress < 100) {
+  //     timer = setInterval(() => setProgress((p) => Math.min(p + 2, 100)), 120);
+  //   }
+  //   if (progress >= 100 && isScanning) {
+  //     setIsScanning(false);
+  //     setScanCompleted(true);
+  //   }
+  //   return () => clearInterval(timer);
+  // }, [isScanning, progress]);
 
   const scanData = {
     totalFiles: 1000, infectedFiles: 75, deletedFiles: 20,
@@ -1246,7 +1258,9 @@ function Dblayer2() {
                 <p className="subtitle">1000 FILES INDEXED — READY</p>
                 <button
                   className="db2-scan-btn"
-                  onClick={() => { setIsScanning(true); setProgress(0); setScanCompleted(false); }}
+                  onClick={() => { 
+                    handleScan()
+                  }}
                 >
                   ▶ Initiate Scan
                 </button>

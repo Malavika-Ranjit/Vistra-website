@@ -4,6 +4,7 @@ import devicesReducer from "./devicesSlice";
 import usersReducer from "./usersSlice";
 import scansReducer from "./scansSlice.js";
 import filesReducer from "./filesSlice";
+import progressReducer from "./progressSlice.js"
 
 export const store = configureStore({
   reducer: {
@@ -11,5 +12,6 @@ export const store = configureStore({
     users: usersReducer,
     scans: scansReducer,
     files: filesReducer,
+    progress: progressReducer
   },
 });

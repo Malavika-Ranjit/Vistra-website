@@ -22,7 +22,7 @@ function App() {
   useScansSubscription();
   useUsersSubscription();
   return (
-  
+  <>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/signin" element={<Signin />} />
@@ -34,6 +34,8 @@ function App() {
       <Route path="/report2" element={<Report2/>}/>
 
     </Routes>
+  </>
+    
   
   );
 }
