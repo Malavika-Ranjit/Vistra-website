@@ -781,7 +781,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AboutBG from "../assets/about_image.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
@@ -1171,6 +1171,7 @@ const styles = `
   }
 `;
 import { useWebSocketTask } from "../src/websocket/websocket";
+import { updateProgress } from "../src/slice/progressSlice";
 function Dblayer2() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1179,12 +1180,19 @@ function Dblayer2() {
   const [scanCompleted, setScanCompleted] = useState(false);
   const [time, setTime] = useState(new Date());
   const deviceId = "470a47234101453c97a2bf21a1ce62c4"
-  const { startTask } = useWebSocketTask(deviceId);
-  const progress = useSelector((state) => state.progress.data);
+
+  const handleScanCompleted = () => {
+    console.log("scan completed")
+    setScanCompleted(true)
+  }
+
+  const { startTask } = useWebSocketTask(deviceId,handleScanCompleted);
+  const {progress, totalThreats, low, medium, high} = useSelector((state) => state.progress);
+  const dispatch = useDispatch();
 
   const handleScan = () => {
     setIsScanning(true); 
-    // setProgress(0); 
+    dispatch(updateProgress(0)) 
     // setScanCompleted(false)
     
     startTask()
@@ -1323,21 +1331,21 @@ function Dblayer2() {
               {scanCompleted && (
                 <>
                   <div className="db2-threats-found">
-                    <strong>{scanData.infectedFiles}</strong>
+                    <strong>{totalThreats}</strong>
                     THREATS DETECTED
                   </div>
 
                   <div className="db2-threat-grid">
                     <div className="db2-threat-badge low">
-                      <span className="t-num">{scanData.low}</span>
+                      <span className="t-num">{low}</span>
                       <span className="t-label">Low</span>
                     </div>
                     <div className="db2-threat-badge med">
-                      <span className="t-num">{scanData.medium}</span>
+                      <span className="t-num">{medium}</span>
                       <span className="t-label">Medium</span>
                     </div>
                     <div className="db2-threat-badge high">
-                      <span className="t-num">{scanData.high}</span>
+                      <span className="t-num">{high}</span>
                       <span className="t-label">High</span>
                     </div>
                   </div>

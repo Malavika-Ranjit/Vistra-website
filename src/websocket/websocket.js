@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
-import { updateProgress } from "../slice/progressSlice";
+import { updateProgress, updateReport } from "../slice/progressSlice";
 import { useRef } from "react";
 
-export const useWebSocketTask = (deviceId) => {
+export const useWebSocketTask = (deviceId,handleScanCompleted) => {
     const wsRef = useRef(null);
     const dispatch = useDispatch();
 
@@ -23,9 +23,27 @@ export const useWebSocketTask = (deviceId) => {
                 console.log("progress:", data.value); // FIX
             }
 
-            if (data.type === "done") {
-                ws.close();
+            if (data.event === "SCAN_COMPLETED") {
+                handleScanCompleted(); //closure to handle completion
+                console.log("SCAN COMPLETED")
             }
+
+            if (data.event == "FILE_RESULT"){
+                console.log("File result reached");
+                console.log("DATA: ", data.value)
+                const totalThreats = data.value.totalThreats;
+                const low = data.value.safe;
+                const medium = data.value.quarantine;
+                const high = data.value.deletion;
+                dispatch(updateReport({
+                    totalThreats:totalThreats, 
+                    low: low, 
+                    medium: medium, 
+                    high: high
+                }))
+
+                ws.close();
+            }   
         };
 
         ws.onclose = () => {
