@@ -28,7 +28,7 @@ export const useWebSocketTask = (deviceId,handleScanCompleted) => {
                 console.log("SCAN COMPLETED")
             }
 
-            if (data.event == "FILE_RESULT"){
+            if (data.event == "FILE_COUNT"){
                 console.log("File result reached");
                 console.log("DATA: ", data.value)
                 const totalThreats = data.value.totalThreats;

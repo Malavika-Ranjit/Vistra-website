@@ -197,6 +197,8 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import AboutBG from "../assets/about_image.png";
+import { useDispatch } from "react-redux";
+import { deleteFile, keepFile } from "../src/slice/reportSlice";
 
 /* ---------- CYBER STYLE ---------- */
 const stylesCSS = `
@@ -307,6 +309,29 @@ const stylesCSS = `
 const Report2 = () => {
   const { state } = useLocation();
   const file = state?.file;
+  const dispatch = useDispatch();
+  const handleDelete = () => {
+    console.log("Deleting file");
+
+    dispatch(
+      deleteFile({
+        scanId: "123",
+        fileName: "test.txt",
+        filePath: "/home/kichu/",
+      })
+    );
+  };
+
+  const handleKeep = () => {
+    console.log("keeping file");
+     dispatch(
+      keepFile({
+        scanId: "123",
+        fileName: "nothing_to_see_1774594827.py",
+        filePath: "/home/kichu/Downloads/FILESS",
+      })
+    );
+  }
 
   if (!file) {
     return <h2 className="no-data">No file data</h2>;
@@ -378,11 +403,11 @@ const Report2 = () => {
 
             {file.f_action !== "delete" && (
               <div className="r2-actions">
-                <button className="r2-btn delete">
+                <button className="r2-btn delete" onClick={()=>handleDelete()}>
                   Delete File
                 </button>
 
-                <button className="r2-btn keep">
+                <button className="r2-btn keep" onClick={()=>handleKeep()}>
                   Keep File
                 </button>
               </div>
