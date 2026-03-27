@@ -6,7 +6,9 @@ const initialState = {
     totalThreats: 0,
     low:0,
     medium:0,
-    high:0
+    high:0,
+    isScanning: false,     
+  scanCompleted: false,
 }
 
 const progressSlice = createSlice({
@@ -22,10 +24,22 @@ const progressSlice = createSlice({
             state.low = action.payload.low;
             state.medium = action.payload.medium;
             state.high = action.payload.high;
-        }
+        },
+        startScan: (state) => {
+      state.isScanning = true;
+      state.scanCompleted = false;
+    },
+     completeScan: (state) => {
+      state.isScanning = false;
+      state.scanCompleted = true;
+    },
+  },
+});
 
-    }
-})
-
-export const {updateProgress,updateReport} = progressSlice.actions
+export const {
+  updateProgress,
+  updateReport,
+  startScan,
+  completeScan,
+} = progressSlice.actions;
 export default progressSlice.reducer

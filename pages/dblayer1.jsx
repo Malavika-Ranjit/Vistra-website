@@ -782,7 +782,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AboutBG from "../assets/about_image.png";
 import { useDispatch, useSelector } from "react-redux";
-
+import { startScan, completeScan } from "../src/slice/progressSlice";
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap');
 
@@ -1171,32 +1171,41 @@ const styles = `
   }
 `;
 import { useWebSocketTask } from "../src/websocket/websocket";
-import { updateProgress } from "../src/slice/progressSlice";
 function Dblayer2() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isScanning, setIsScanning] = useState(false);
-  //const [progress, setProgress] = useState(0);
-  const [scanCompleted, setScanCompleted] = useState(false);
+  // const [isScanning, setIsScanning] = useState(false);
+  // //const [progress, setProgress] = useState(0);
+  // const [scanCompleted, setScanCompleted] = useState(false);
   const [time, setTime] = useState(new Date());
   const deviceId = "470a47234101453c97a2bf21a1ce62c4"
 
   const handleScanCompleted = () => {
     console.log("scan completed")
-    setScanCompleted(true)
-  }
+    dispatch(completeScan());
+  };
 
   const { startTask } = useWebSocketTask(deviceId,handleScanCompleted);
-  const {progress, totalThreats, low, medium, high} = useSelector((state) => state.progress);
+  const {
+  progress,
+  totalThreats,
+  low,
+  medium,
+  high,
+  isScanning,
+  scanCompleted
+} = useSelector((state) => state.progress);
+
   const dispatch = useDispatch();
 
   const handleScan = () => {
-    setIsScanning(true); 
-    dispatch(updateProgress(0)) 
+    console.log("SCAN BUTTON CLICKED");
+    // setIsScanning(true); 
+    dispatch(startScan()); 
     // setScanCompleted(false)
     
-    startTask()
-  }
+    startTask();
+  };
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);

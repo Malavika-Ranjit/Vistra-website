@@ -1,21 +1,29 @@
 import { useDispatch } from "react-redux";
 import { updateProgress, updateReport } from "../slice/progressSlice";
-import { useRef } from "react";
+// import { useRef } from "react";
+let socket = null;   
 
 export const useWebSocketTask = (deviceId,handleScanCompleted) => {
-    const wsRef = useRef(null);
+    // const wsRef = useRef(null);
     const dispatch = useDispatch();
 
     const startTask = () => {
-        const ws = new WebSocket(`ws://localhost:8000/ws/frontend/${deviceId}`);
-        wsRef.current = ws;
+        // const ws = new WebSocket(`ws://10.107.190.46:8000/ws/frontend/${deviceId}`);
+        // wsRef.current = ws;
+        if (socket) {
+    console.log("Socket already running");
+    return;
+}
 
-        ws.onopen = () => {
+socket = new WebSocket(`ws://10.107.190.46:8000/ws/frontend/${deviceId}`);
+
+
+        socket.onopen = () => {
             console.log("Connected");
             ws.send(JSON.stringify({ event: "START_SCAN" })); // FIX: stringify
         };
 
-        ws.onmessage = (event) => {
+        socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log("message from backend:",data)
             if (data.event === "SCAN_PROGRESS") {
@@ -42,7 +50,7 @@ export const useWebSocketTask = (deviceId,handleScanCompleted) => {
                     high: high
                 }))
 
-                ws.close();
+                socket.close();
             }   
         };
 
@@ -50,7 +58,7 @@ export const useWebSocketTask = (deviceId,handleScanCompleted) => {
             console.log("Disconnected");
         };
 
-        ws.onerror = (err) => {
+        socket.onerror = (err) => {
             console.error(err);
         };
     };
