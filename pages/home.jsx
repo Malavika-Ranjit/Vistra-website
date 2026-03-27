@@ -703,14 +703,16 @@ function Home() {
           <button style={navBtn} onClick={() => scrollToSection('about')}>
             About
           </button>
+          {session &&(
           <button style={navBtn} onClick={() => navigate('/dblayer1')}>
             Dashboard
           </button>
+          )}
         </nav>
       </div>
 
-      {/* AUTH SECTION */}
-      {/* <div style={authBox}>
+      {/* AUTH SECTION */} 
+       <div style={authBox}>
         {!session ? (
           <>
             <button style={authBtn} onClick={() => navigate('/signin')}>
@@ -739,7 +741,7 @@ function Home() {
             LOGOUT
           </button> 
         )}
-      </div>*/}
+      </div>
 
       {/* HOME */}
       <section id="home" style={homeStyle}>

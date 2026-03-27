@@ -290,15 +290,43 @@ const stylesCSS = `
     font-weight: 600;
   }
 
-  .delete {
-    border-color: #ff3250;
-    color: #ff3250;
-  }
+  /* Base button styles */
+.delete {
+  border: 2px solid #ff3250;     
+  color: #ff3250;                 
+  background: transparent;       
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 
-  .keep {
-    border-color: #00ff96;
-    color: #00ff96;
-  }
+.keep {
+  border: 2px solid #00ff96;      /* green border */
+  color: #00ff96;                 /* green text */
+  background: transparent;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.delete:hover {
+  transform: scale(1.05);           /* grows slightly */
+  background-color: rgba(255,50,80,0.1);  /* subtle red background on hover */
+}
+
+.keep:hover {
+  transform: scale(1.05);
+  background-color: rgba(0,255,150,0.1);   /* subtle green background on hover */
+}
+
+.delete:active, .keep:active {
+  transform: scale(0.95);          
+
 
   .no-data {
     text-align: center;
